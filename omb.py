@@ -6,7 +6,10 @@ import webbrowser
 import threading
 import json
 import cgi
-
+def OL(btn):
+    host_name = socket.gethostbyname(socket.gethostname())
+    port_number = 5151
+    webbrowser.open(f"http://{host_name}:{port_number}")
 def server(btn):
     if btn == "Start":
         host_name = socket.gethostbyname(socket.gethostname())
@@ -47,4 +50,6 @@ app.startLabelFrame("Server Status")
 app.addLabel("SL","Server Location:")
 app.addLabel("SS","Server Status:")
 app.stopLabelFrame()
+
+app.addButton("Open Online",OL)
 app.go()
