@@ -10,10 +10,16 @@ bottle.BaseRequest.MEMFILE_MAX = 500000000
 @route('/pages/<filename:path>')
 def serve_static(filename):
     return static_file(filename, root='./pages/')
+@route('/media/video/<filename:path>')
+def download(filename):
+    return static_file(filename, root='./media/video/', download=filename)
+
 
 @route('/')
 def index():
     return template('./pages/index.html')
+
+
 
 @route('/files')
 def videos():
@@ -25,20 +31,25 @@ def videos():
     output = template('./pages/videos.html',rows=result)
     return output
 
-@route('/videos/upload', method='POST')
+@route('/files/upload')
+def upload():
+    return template('./pages/newfile.html')
+@route('/files/upload', method='POST')
 def do_upload():
     upload_name = request.forms.get('name')
-    upload = request.files.get('file')
+    upload = request.files.get('upload')
+    
     if upload is not None:
         name, ext = os.path.splitext(upload.filename)
-        save_path = "./media/videos"
-    if not os.path.exists(save_path):
-        os.makedirs(save_path)
+        save_path = "./media/video"
+        if not os.path.exists(save_path):
+            os.makedirs(save_path)
         upload.save(save_path)
+        
         conn = sqlite3.connect('media.db')
         c = conn.cursor()
         fname = name + ext
-        c.execute("INSERT INTO videos (name,file) VALUES (?,?)",(upload_name,upload))
+        c.execute("INSERT INTO videos (name,file) VALUES (?,?)",(upload_name,fname))
         conn.commit()
         conn.close()
         return redirect('/')
