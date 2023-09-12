@@ -3,7 +3,15 @@ import bottle
 import sqlite3
 import socket
 import os
+import configparser
 
+def read_cfg():
+    config = configparser.ConfigParser()
+    config.read('settings.ini')
+    return config['Settings'].get("ServerDir",'')
+directory_path = read_cfg()
+
+print(directory_path) 
 ip=socket.gethostbyname(socket.gethostname())
 
 bottle.BaseRequest.MEMFILE_MAX = 500000000
@@ -12,7 +20,7 @@ def serve_static(filename):
     return static_file(filename, root='./pages/')
 @route('/media/video/<filename:path>')
 def download(filename):
-    return static_file(filename, root='./media/video/', download=filename)
+    return static_file(filename, root=f'{directory_path}/media/video/', download=filename)
 
 
 @route('/')
@@ -41,7 +49,7 @@ def do_upload():
     
     if upload is not None:
         name, ext = os.path.splitext(upload.filename)
-        save_path = "./media/video"
+        save_path = f"{directory_path}/media/video"
         if not os.path.exists(save_path):
             os.makedirs(save_path)
         upload.save(save_path)
@@ -55,4 +63,4 @@ def do_upload():
         return redirect('/')
     else:
         return "ERROR NO FILE UPLOADED"
-run(host=ip,port=8888,debug=True,reloader=True)
+run(host=ip,port=5555,debug=True,reloader=True)
