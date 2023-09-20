@@ -73,4 +73,4 @@ def do_upload():
         return redirect('/')
     else:
         return "ERROR NO FILE UPLOADED"
-run(host=ip,port=5500,debug=True,reloader=True)
+run(host=ip,port=8080,debug=True,reloader=True)
