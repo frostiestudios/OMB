@@ -1,5 +1,4 @@
 from bottle import request, static_file, template, redirect, route, run
-import bottle
 import sqlite3
 import socket
 import os
@@ -14,7 +13,7 @@ directory_path = read_cfg()
 print(directory_path) 
 ip=socket.gethostbyname(socket.gethostname())
 
-bottle.BaseRequest.MEMFILE_MAX = 500000000
+
 @route('/pages/<filename:path>')
 def serve_static(filename):
     return static_file(filename, root='./pages/')
