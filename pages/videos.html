@@ -1,21 +1,13 @@
 <!DOCTYPE html>
-<button onclick="window.location.href='/'">Home</button>
-<button onclick="window.location.href='/files/upload'"">Upload New</button>
-
 <table>
     <th>ID</th>
     <th>Name</th>
-    <th>File</th>
-    <th>Media Type</th>
-    <th>File Location</th>
-    <th>Size</th>
     %for row in rows:
     <tr>
         <td>{{row[0]}}</td>
         <td>{{row[1]}}</td>
         <td>{{row[2]}}</td>
-        <td><a href="/media/video/{{row[2]}}">Play</a></td>
-        <td><a>Download</a></td>
+        
     </tr>
     %end
 </table>

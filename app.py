@@ -1,8 +1,11 @@
-from bottle import request, static_file, template, redirect, route, run
+from bottle import Bottle, request, static_file, template, redirect, route, run
+from bottle_login import LoginPlugin
 import sqlite3
 import socket
 import os
 import configparser
+
+
 
 def read_cfg():
     config = configparser.ConfigParser()
@@ -14,6 +17,13 @@ print(directory_path)
 ip=socket.gethostbyname(socket.gethostname())
 
 
+
+@route('/my_ip')
+def show_ip():
+    ip2 = request.environ.get('REMOTE_ADDR')
+    # or ip = request.get('REMOTE_ADDR')
+    # or ip = request['REMOTE_ADDR']
+    return template("Your IP is: {{ip2}}", ip2=ip2)
 @route('/pages/<filename:path>')
 def serve_static(filename):
     return static_file(filename, root='./pages/')
@@ -24,10 +34,11 @@ def download(filename):
 
 @route('/')
 def index():
+
     return template('./pages/index.html')
 
 
-
+    return redirect('/')
 @route('/files')
 def videos():
     conn = sqlite3.connect('media.db')
@@ -62,4 +73,4 @@ def do_upload():
         return redirect('/')
     else:
         return "ERROR NO FILE UPLOADED"
-run(host=ip,port=5555,debug=True,reloader=True)
+run(host=ip,port=5500,debug=True,reloader=True)

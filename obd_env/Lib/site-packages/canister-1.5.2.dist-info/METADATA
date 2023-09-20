@@ -1,0 +1,17 @@
+Metadata-Version: 2.1
+Name: canister
+Version: 1.5.2
+Summary: A bottle wrapper to provide logging, sessions and authentication.
+Home-page: https://github.com/dagnelies/canister
+Author: Arnaud Dagnelies
+Author-email: arnaud.dagnelies@gmail.com
+License: MIT
+Keywords: bottle server webserver session logging authentication
+Platform: UNKNOWN
+Requires-Dist: bottle
+Provides-Extra: jwt
+Requires-Dist: PyJWT ; extra == 'jwt'
+
+UNKNOWN
+
+
